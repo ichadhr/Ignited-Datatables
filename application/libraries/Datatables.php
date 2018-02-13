@@ -323,9 +323,10 @@
       $search = $this->ci->input->post('search');
       $sSearch = $this->ci->db->escape_like_str(trim($search['value']));
       $columns = array_values(array_diff($this->columns, $this->unset_columns));
+      $caunted = is_array($mColArray) ? count($mColArray) : 1;
 
       if($sSearch != ''){
-        for($i = 0; $i < count($mColArray); $i++){
+        for($i = 0; $i < $caunted; $i++){
           if ($mColArray[$i]['searchable'] == 'true' && !array_key_exists($mColArray[$i]['data'], $this->add_columns))
             if($this->check_cType())
               $sWhere .= $this->select[$mColArray[$i]['data']] . " LIKE '%" . $sSearch . "%' OR ";
@@ -335,7 +336,7 @@
         $sWhere = substr_replace($sWhere, '', -3);
       }
       else{
-        for($i = 0; $i < count($mColArray); $i++){
+        for($i = 0; $i < $caunted; $i++){
           if ($mColArray[$i]['searchable'] == 'true' && !array_key_exists($mColArray[$i]['data'], $this->add_columns) && $mColArray[$i]['search']['value']!=''){
         $sSearch = $this->ci->db->escape_like_str(trim($mColArray[$i]['search']['value']));
             if($this->check_cType())
